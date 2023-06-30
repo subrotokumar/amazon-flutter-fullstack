@@ -1,0 +1,24 @@
+{
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "**/windows": true,
+    "windows": true,
+    "**/web": true,
+    "web": true,
+    "**/macos": true,
+    "macos": true,
+    "**/linux": true,
+    "linux": true
+  },
+  "explorerExclude.backup": {}
+}
