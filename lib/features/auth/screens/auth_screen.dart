@@ -2,20 +2,21 @@ import 'package:amazon/common/widgets/custom_button.dart';
 import 'package:amazon/common/widgets/custom_textfield.dart';
 import 'package:amazon/constants/global_variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../services/auth_service.dart';
 
 enum Auth { signIn, signUp }
 
-class AuthScreen extends StatefulWidget {
-  static const String routeName = '/auth';
+class AuthScreen extends ConsumerStatefulWidget {
+  static const String path = '/auth';
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen> {
   Auth auth = Auth.signUp;
   final singUpFormKey = GlobalKey<FormState>();
   final singInFormKey = GlobalKey<FormState>();
@@ -33,13 +34,29 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
   }
 
-  void signUpUser() {
-    authService.signUpUser(
-      context: context,
-      name: nameController.text,
-      email: emailController.text,
-      password: passwordController.text,
-    );
+  Future<void> signUpUser() async {
+    if (singUpFormKey.currentState!.validate()) {
+      await authService.signUpUser(
+        context: context,
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      setState(() {
+        auth = Auth.signIn;
+      });
+    }
+  }
+
+  Future<void> signInUser() async {
+    if (singInFormKey.currentState!.validate()) {
+      await authService.signInUser(
+        context: context,
+        email: emailController.text,
+        password: passwordController.text,
+        ref: ref,
+      );
+    }
   }
 
   @override
@@ -99,7 +116,12 @@ class _AuthScreenState extends State<AuthScreen> {
                           obscure: true,
                         ),
                         const SizedBox(height: 10),
-                        CustomButton(label: 'Sign Up', onTap: () {})
+                        CustomButton(
+                          label: 'Sign Up',
+                          onTap: () async {
+                            signUpUser();
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -123,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   padding: const EdgeInsets.all(8),
                   color: Colors.white,
                   child: Form(
-                    key: singUpFormKey,
+                    key: singInFormKey,
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
@@ -138,12 +160,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         const SizedBox(height: 10),
                         CustomButton(
-                            label: 'Sign In',
-                            onTap: () {
-                              if (singUpFormKey.currentState!.validate()) {
-                                signUpUser();
-                              }
-                            })
+                          label: 'Sign In',
+                          onTap: () async {
+                            signInUser();
+                          },
+                        )
                       ],
                     ),
                   ),

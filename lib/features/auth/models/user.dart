@@ -33,13 +33,13 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
-      address: map['address'] as String,
-      type: map['type'] as String,
-      token: map['token'] as String,
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      password: map['password'] ?? '',
+      address: map['address'] ?? '',
+      type: map['type'] ?? '',
+      token: map['token'] ?? '',
     );
   }
 
@@ -47,4 +47,9 @@ class User {
 
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'User(id: $id, name: $name, email: $email, password: ******, address: $address, type: $type, token: $token)';
+  }
 }

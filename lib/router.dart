@@ -1,17 +1,25 @@
+import 'package:amazon/features/auth/home/screens/home_screen.dart';
 import 'package:amazon/features/auth/screens/auth_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:amazon/providers/user_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-MaterialPageRoute generateRoute(RouteSettings routeSettings) {
-  switch (routeSettings.name) {
-    case AuthScreen.routeName:
-      return MaterialPageRoute(
-        builder: (_) => const AuthScreen(),
-        settings: routeSettings,
-      );
-    default:
-      return MaterialPageRoute(
-        builder: (_) => const AuthScreen(),
-        settings: routeSettings,
-      );
-  }
-}
+final router = Provider<GoRouter>((ref) => GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) {
+            final user = ref.read(userProvider);
+            return (user.token.isNotEmpty) ? HomeScreen() : AuthScreen();
+          },
+        ),
+        GoRoute(
+          path: AuthScreen.path,
+          builder: (context, state) => const AuthScreen(),
+        ),
+        GoRoute(
+          path: HomeScreen.path,
+          builder: (context, state) => const HomeScreen(),
+        ),
+      ],
+    ));

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
-String uri = 'http://192.168.1.5:3000';
+String uri = 'http://10.0.2.2:3000';
+final log = Logger();
 
 class GlobalVariables {
   // COLORS
