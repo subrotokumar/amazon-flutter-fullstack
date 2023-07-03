@@ -2,17 +2,18 @@
 
 import 'dart:convert';
 
-import 'package:amazon/constants/error_handling.dart';
-import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/constants/utils.dart';
-import 'package:amazon/features/auth/home/screens/home_screen.dart';
-import 'package:amazon/features/auth/models/user.dart';
-import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:amazon/common/widgets/bottom_bar.dart';
+import 'package:amazon/constants/error_handling.dart';
+import 'package:amazon/constants/global_variables.dart';
+import 'package:amazon/constants/utils.dart';
+import 'package:amazon/features/auth/models/user.dart';
+import 'package:amazon/providers/user_provider.dart';
 
 class AuthService {
   Future<void> signUpUser({
@@ -64,6 +65,8 @@ class AuthService {
           'Content-Type': 'application/json',
         },
       );
+      log.v(res.body);
+      log.v(res.statusCode);
       httpErrorHandle(
         response: res,
         context: context,
@@ -71,7 +74,7 @@ class AuthService {
           final pref = await SharedPreferences.getInstance();
           ref.read(userProvider.notifier).setUser(res.body);
           await pref.setString('x-auth-token', jsonDecode(res.body)['token']);
-          context.go(HomeScreen.path);
+          context.go(BottomBar.path);
         },
       );
     } catch (e) {
@@ -79,18 +82,18 @@ class AuthService {
     }
   }
 
-  void getUserData(WidgetRef ref) async {
+  Future<void> getUserData(WidgetRef ref) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
-      String? token = pref.getString('x-auth-token');
-      if (token == null) {
-        pref.setString('x-auth-token', '');
+      String? token = pref.getString('x-auth-token') ?? '';
+      if (token.isEmpty) {
+        await pref.setString('x-auth-token', '');
       }
       var tokenRes = await http.post(
         Uri.parse('$uri/tokenIsValid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'x-auth-token': token!,
+          'x-auth-token': token
         },
       );
       var response = jsonDecode(tokenRes.body);
@@ -102,9 +105,16 @@ class AuthService {
             'x-auth-token': token,
           },
         );
-        final userNotifier = ref.read(userProvider.notifier);
-        userNotifier.setUser(userResponse.body);
+        if (userResponse.statusCode == 200) {
+          final userNotifier = ref.read(userProvider.notifier);
+          userNotifier.setUser(userResponse.body);
+        } else {
+          log.e(
+              'Error getting userData : ${jsonDecode(userResponse.body)['error']}');
+        }
       }
-    } catch (e) {}
+    } catch (e) {
+      log.e(e.toString());
+    }
   }
 }

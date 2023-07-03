@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { auth, AuthRequest } from "../middlewares/auth";
-const User = require("../models/users");
+import User from "../models/users";
 
 const authRouter = express.Router();
 
@@ -42,7 +42,7 @@ authRouter.post("/api/signin", async (req, res) => {
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return res.json({ message: "Incorrect Password" });
+      return res.status(400).json({ message: "Incorrect Password" });
     }
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY!);
     return res.json({
@@ -61,21 +61,27 @@ authRouter.post("/api/signin", async (req, res) => {
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
+    console.log(token);
+    console.log(process.env.SECRET_KEY!);
     if (!token) return res.json(false);
     const verified = jwt.verify(token, process.env.SECRET_KEY!);
     if (!verified || typeof verified === "string") return res.json(false);
     const user = await User.findById(verified.id);
     if (!user) return res.json(false);
     res.json(true);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
   }
 });
 
 // Get User Data
 authRouter.get("/", auth, async (req: AuthRequest, res) => {
-  const user = await User.findById(req.user);
-  res.json({ ...user._doc, token: req.token });
+  try {
+    const user = await User.findById({ _id: req.userId });
+    res.status(200).json({ ...user._doc, token: req.token });
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message });
+  }
 });
 
 export default authRouter;

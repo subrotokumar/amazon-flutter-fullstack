@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface AuthRequest extends Request {
-  user?: string | JwtPayload;
+  userId?: string | JwtPayload;
   token?: string;
 }
 
@@ -18,7 +18,7 @@ const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
       return res
         .status(401)
         .json({ message: "Token verification failed, authorization denied" });
-    req.user = verified;
+    req.userId = verified.id;
     req.token = token;
     next();
   } catch (error) {

@@ -162,6 +162,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         CustomButton(
                           label: 'Sign In',
                           onTap: () async {
+                            log.d('Login');
                             signInUser();
                           },
                         )

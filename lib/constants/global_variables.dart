@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-String uri = 'http://10.0.2.2:3000';
+String uri = false
+    ? 'http://10.0.2.2:3000'
+    : 'https://tee-borough-pgp-voices.trycloudflare.com';
 final log = Logger();
 
 class GlobalVariables {
