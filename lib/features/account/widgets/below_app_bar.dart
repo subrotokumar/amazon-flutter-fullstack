@@ -1,7 +1,8 @@
-import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:amazon/constants/global_variables.dart';
+import 'package:amazon/providers/user_provider.dart';
 
 class BelowAppBar extends ConsumerWidget {
   const BelowAppBar({super.key});

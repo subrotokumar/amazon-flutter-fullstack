@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/features/account/screens/account_screen.dart';
-import 'package:amazon/features/home/screens/home_screen.dart';
+import 'package:amazon/features/admin/screens/post_screen.dart';
 
-class BottomBar extends StatefulWidget {
-  static const String path = '/actual-home';
-  const BottomBar({super.key});
+class AdminScreen extends StatefulWidget {
+  static const String path = '/admin';
+  const AdminScreen({super.key});
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  State<AdminScreen> createState() => _AdminScreenState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _AdminScreenState extends State<AdminScreen> {
   int page = 0;
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    const HomeScreen(),
-    const AccountScreen(),
+    const PostScreen(),
+    const Center(
+      child: Text('Anakytics'),
+    ),
     const Center(
       child: Text('Cart'),
     ),
   ];
+
   void updatePage(index) {
     setState(() {
       page = index;
@@ -33,6 +35,35 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          elevation: 0,
+          flexibleSpace: Container(
+            decoration:
+                const BoxDecoration(gradient: GlobalVariables.appBarGradient),
+          ),
+          title: Row(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                child: Image.asset(
+                  'assets/images/amazon_in.png',
+                  width: 120,
+                  height: 45,
+                  color: Colors.black,
+                ),
+              ),
+              const Spacer(),
+              const Text(
+                'Admin',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: page,
         selectedItemColor: GlobalVariables.selectedNavBarColor,

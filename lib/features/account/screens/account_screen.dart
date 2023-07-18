@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/features/account/widgets/below_app_bar.dart';
 import 'package:amazon/features/account/widgets/order.dart';
 import 'package:amazon/features/account/widgets/top_bottom.dart';
-import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});

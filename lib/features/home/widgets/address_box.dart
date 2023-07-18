@@ -29,6 +29,7 @@ class AddressBox extends StatelessWidget {
                 final user = ref.watch(userProvider);
                 return Text(
                   'Delivery to ${user.name} - ${user.address}',
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     overflow: TextOverflow.ellipsis,

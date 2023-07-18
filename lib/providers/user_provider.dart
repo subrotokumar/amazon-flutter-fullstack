@@ -1,4 +1,4 @@
-import 'package:amazon/features/auth/models/user.dart';
+import 'package:amazon/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userProvider =

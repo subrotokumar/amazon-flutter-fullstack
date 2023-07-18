@@ -1,15 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:amazon/common/widgets/bottom_bar.dart';
 import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/features/home/screens/home_screen.dart';
+import 'package:amazon/features/admin/screens/admin_screen.dart';
 import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:amazon/features/auth/services/auth_service.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:amazon/router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -38,15 +39,15 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class MyHomePage extends ConsumerStatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   static const String path = "/";
-  const MyHomePage({super.key});
+  const SplashScreen({super.key});
 
   @override
-  ConsumerState<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _MyHomePageState extends ConsumerState<MyHomePage> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -57,16 +58,18 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     await AuthService().getUserData(ref);
     (ref.read(userProvider).token.isEmpty)
         ? context.go(AuthScreen.path)
-        : context.go(BottomBar.path);
+        : (ref.read(userProvider).type == 'user'
+            ? context.go(BottomBar.path)
+            : context.go(AdminScreen.path));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => context.go(AuthScreen.path),
-          child: const Text('Go to Auth Screem'),
+        child: Image.asset(
+          'assets/images/amazon_in.png',
+          width: 200,
         ),
       ),
     );

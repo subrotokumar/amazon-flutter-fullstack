@@ -2,25 +2,26 @@
 import express, { Express } from "express";
 import * as mongoose from "mongoose";
 import * as dotenv from "dotenv";
-dotenv.config();
 
 // Immport from other files
 import authRouter from "./routes/auth";
-import path from "path";
+import adminRouter from "./routes/admin";
 
 // Init
 const PORT = 3000;
 const app: Express = express();
+dotenv.config();
 const CONNECTION_URL = process.env.CONNECTION_URL!;
 
 // Middleware
 app.use(express.json());
 app.use(authRouter);
-app.use(express.static("../public"));
+app.use(adminRouter);
 
-app.get("/hello", (req, res) => {
+app.get("/hello", (_, res) => {
   res.status(200).send("Hello World");
 });
+
 // Connections
 mongoose
   .connect(CONNECTION_URL)

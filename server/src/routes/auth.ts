@@ -6,6 +6,9 @@ import User from "../models/users";
 
 const authRouter = express.Router();
 
+/**
+ * Get Request
+ */
 authRouter.post("/api/signup", async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
@@ -78,6 +81,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 authRouter.get("/", auth, async (req: AuthRequest, res) => {
   try {
     const user = await User.findById({ _id: req.userId });
+    console.log(user);
     res.status(200).json({ ...user._doc, token: req.token });
   } catch (e) {
     res.status(500).json({ error: (e as Error).message });

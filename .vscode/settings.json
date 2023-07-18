@@ -18,7 +18,37 @@
     "**/macos": true,
     "macos": true,
     "**/linux": true,
-    "linux": true
+    "linux": true,
+    "**/.flutter-plugins": true,
+    "**/.flutter-plugins-dependencies": true,
+    "**/amazon.iml": true,
+    "**/.metadata": true,
+    "**/analysis_options.yaml": true,
+    "**/pubspec.lock": true,
+    "**/.dart_tool": true,
+    "**/.idea": true,
+    "**/.vscode": true,
+    "**/build": true
   },
-  "explorerExclude.backup": {}
+  "explorerExclude.backup": {},
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#2073af",
+    "activityBar.background": "#2073af",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#6c1447",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#2073af",
+    "statusBar.background": "#185784",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#2073af",
+    "statusBarItem.remoteBackground": "#185784",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#185784",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#18578499",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#185784"
 }
