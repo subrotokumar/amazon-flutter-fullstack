@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 // Immport from other files
 import authRouter from "./routes/auth";
 import adminRouter from "./routes/admin";
+import productRouter from "./routes/products";
 
 // Init
 const PORT = 3000;
@@ -17,6 +18,7 @@ const CONNECTION_URL = process.env.CONNECTION_URL!;
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
 
 app.get("/hello", (_, res) => {
   res.status(200).send("Hello World");
