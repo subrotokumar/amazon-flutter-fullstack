@@ -64,8 +64,6 @@ authRouter.post("/api/signin", async (req, res) => {
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    console.log(token);
-    console.log(process.env.SECRET_KEY!);
     if (!token) return res.json(false);
     const verified = jwt.verify(token, process.env.SECRET_KEY!);
     if (!verified || typeof verified === "string") return res.json(false);
