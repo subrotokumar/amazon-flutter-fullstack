@@ -1,17 +1,18 @@
 // Import from package
 import express, { Express } from "express";
-import * as mongoose from "mongoose";
-import * as dotenv from "dotenv";
+import { connect as dbConnect } from "mongoose";
+import { config } from "dotenv";
 
 // Immport from other files
-import authRouter from "./routes/auth";
-import adminRouter from "./routes/admin";
-import productRouter from "./routes/products";
+import authRouter from "./routes/auth.routes";
+import adminRouter from "./routes/admin.routes";
+import productRouter from "./routes/products.routes";
+import userRouter from "./routes/user.routes";
 
 // Init
-const PORT = 3000;
+config();
+const PORT = Number(process.env.PORT) ?? 3000;
 const app: Express = express();
-dotenv.config();
 const CONNECTION_URL = process.env.CONNECTION_URL!;
 
 // Middleware
@@ -19,14 +20,14 @@ app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 
 app.get("/hello", (_, res) => {
   res.status(200).send("Hello World");
 });
 
-// Connections
-mongoose
-  .connect(CONNECTION_URL)
+// Mongo0se Connections
+dbConnect(CONNECTION_URL)
   .then(() => console.log("Connected to Mongoose"))
   .catch((e) => console.log(e));
 

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ratingSchema } from "./rating.model";
 
-const productSchema = new mongoose.Schema({
+export const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -29,6 +30,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ratings: [ratingSchema],
 });
 
 export const Product = mongoose.model("Product", productSchema);

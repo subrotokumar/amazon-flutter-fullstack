@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/users";
+import User from "../models/users.model";
 
 interface AuthRequest extends Request {
   userId?: string | JwtPayload;

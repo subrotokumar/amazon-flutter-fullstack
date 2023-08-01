@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-const uri = 'http://10.0.2.2:3000';
+const uri = true
+    ? 'http://10.0.2.2:3000'
+    : 'https://liz-couple-port-baseball.trycloudflare.com';
 final log = Logger();
 
 class GlobalVariables {

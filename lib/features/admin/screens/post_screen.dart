@@ -79,9 +79,8 @@ class _PostScreenState extends ConsumerState<PostScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            deleteProduct(productData, index);
-                          },
+                          onPressed: () =>
+                            deleteProduct(productData, index),
                           icon: const Icon(Icons.delete_outline),
                         )
                       ],

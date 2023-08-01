@@ -1,30 +1,35 @@
-import 'package:amazon/features/search/screens/search_screen.dart';
+import 'package:amazon/common/widgets/loader.dart';
+import 'package:amazon/constants/global_variables.dart';
+import 'package:amazon/features/home/widgets/address_box.dart';
+import 'package:amazon/features/search/services/search_services.dart';
+import 'package:amazon/features/search/widget/searched_products.dart';
+import 'package:amazon/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/features/auth/services/auth_service.dart';
-import 'package:amazon/features/home/widgets/address_box.dart';
-import 'package:amazon/features/home/widgets/carousel_image.dart';
-import 'package:amazon/features/home/widgets/deal_of_day.dart';
-import 'package:amazon/features/home/widgets/top_categories.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  static const String path = '/home';
-  const HomeScreen({super.key});
+class SearchScreen extends ConsumerStatefulWidget {
+  static const String name = 'SearchScreen';
+  static const String path = "/search/:searchQuery";
+  const SearchScreen({super.key, required this.searchQuery});
+  final String searchQuery;
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final AuthService authService = AuthService();
-
+class _SearchScreenState extends ConsumerState<SearchScreen> {
+  List<Product>? products;
   @override
   void initState() {
     super.initState();
-    authService.getUserData(ref);
+    fetchSearchProduct();
+  }
+
+  Future fetchSearchProduct() async {
+    products = await SearchService()
+        .fetchSearchProduct(context, ref, widget.searchQuery);
+    setState(() {});
   }
 
   void navToSearchScreen(String searchQuery) {
@@ -102,17 +107,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            AddressBox(),
-            SizedBox(height: 10),
-            TopCategories(),
-            CarouselImage(),
-            DealOfDay(),
-          ],
-        ),
-      ),
+      body: products == null
+          ? const Loader()
+          : Column(
+              children: [
+                const AddressBox(),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products!.length,
+                    itemBuilder: (context, index) {
+                      return SearchedProductWinget(
+                        product: products![index],
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
     );
   }
 }

@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import { admin } from "../middlewares/admin";
-import { Product } from "../models/product";
-const adminRouter = express.Router();
+import { Product } from "../models/product.model";
+const adminRouter = Router();
 
 // Add product
 adminRouter.post(

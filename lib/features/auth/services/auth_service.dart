@@ -33,7 +33,7 @@ class AuthService {
         password: password,
       );
       http.Response res = await http.post(
-        Uri.parse('$uri/api/signup'),
+        Uri.parse('$uri/auth/signup'),
         body: user.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ class AuthService {
   }) async {
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/api/signin'),
+        Uri.parse('$uri/auth/signin'),
         body: jsonEncode({'email': email, 'password': password}),
         headers: <String, String>{
           'Content-Type': 'application/json',

@@ -1,15 +1,15 @@
-import express, { Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { auth, AuthRequest } from "../middlewares/auth";
-import User from "../models/users";
+import { User, userScrema } from "../models/users.model";
 
-const authRouter = express.Router();
+const authRouter = Router();
 
 /**
  * Get Request
  */
-authRouter.post("/api/signup", async (req: Request, res: Response) => {
+authRouter.post("/auth/signup", async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ email });
@@ -34,7 +34,7 @@ authRouter.post("/api/signup", async (req: Request, res: Response) => {
   }
 });
 
-authRouter.post("/api/signin", async (req, res) => {
+authRouter.post("/auth/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });

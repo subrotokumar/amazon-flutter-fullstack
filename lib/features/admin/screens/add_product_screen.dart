@@ -22,10 +22,10 @@ class AddProductScreen extends ConsumerStatefulWidget {
 
 class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   final GlobalKey<FormState> _addProductFormKey = GlobalKey();
-  final productNameController = TextEditingController(text: 'iphone');
-  final descriptionController = TextEditingController(text: 'desc');
-  final priceController = TextEditingController(text: '99');
-  final quantityController = TextEditingController(text: '7');
+  final productNameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final priceController = TextEditingController();
+  final quantityController = TextEditingController();
   final AdminService service = AdminService();
 
   @override
