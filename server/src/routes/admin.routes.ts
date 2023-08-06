@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { admin } from "../middlewares/admin";
+import { admin } from "../middlewares/admin.middleware";
 import { Product } from "../models/product.model";
 const adminRouter = Router();
 
