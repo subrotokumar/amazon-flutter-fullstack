@@ -1,4 +1,5 @@
 import 'package:amazon/common/widgets/bottom_bar.dart';
+import 'package:amazon/features/address/screens/address_screen.dart';
 import 'package:amazon/features/admin/screens/add_product_screen.dart';
 import 'package:amazon/features/admin/screens/admin_screen.dart';
 import 'package:amazon/features/home/screens/category_deal_screen.dart';
@@ -56,11 +57,17 @@ final router = Provider<GoRouter>(
         ),
       ),
       GoRoute(
-          name: ProductDetailScreen.name,
-          path: ProductDetailScreen.path,
-          builder: (context, state) => ProductDetailScreen(
-                product: state.extra as Product,
-              )),
+        name: ProductDetailScreen.name,
+        path: ProductDetailScreen.path,
+        builder: (context, state) => ProductDetailScreen(
+          product: state.extra as Product,
+        ),
+      ),
+      GoRoute(
+        name: AddressScreen.name,
+        path: AddressScreen.path,
+        builder: (context, state) => const AddressScreen(),
+      ),
     ],
     redirect: (context, state) {
       log.wtf(state.fullPath);

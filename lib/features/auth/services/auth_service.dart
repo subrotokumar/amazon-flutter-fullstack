@@ -31,6 +31,7 @@ class AuthService {
         type: '',
         token: '',
         password: password,
+        cart: [],
       );
       http.Response res = await http.post(
         Uri.parse('$uri/auth/signup'),
@@ -113,8 +114,6 @@ class AuthService {
               'Error getting userData : ${jsonDecode(userResponse.body)['error']}');
         }
       }
-    } catch (e) {
-      log.e(e.toString());
-    }
+    } catch (e) {}
   }
 }

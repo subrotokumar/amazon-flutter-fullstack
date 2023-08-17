@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,9 +17,15 @@ class UserNotifier extends StateNotifier<User> {
           address: '',
           type: '',
           token: '',
+          cart: [],
         ));
 
   void setUser(String user) {
+    log.v(jsonDecode(user));
     state = User.fromJson(user);
+  }
+
+  void setUserFromModel(User user) {
+    state = user;
   }
 }

@@ -1,4 +1,7 @@
+import 'package:amazon/features/cart/screens/cart_screen.dart';
+import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/features/account/screens/account_screen.dart';
@@ -20,9 +23,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const Center(
-      child: Text('Cart'),
-    ),
+    const CartScreen(),
   ];
   void updatePage(index) {
     setState(() {
@@ -90,12 +91,15 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: const Badge(
-                label: Text('2'),
-                backgroundColor: Colors.white,
-                textColor: Colors.black,
-                child: Icon(Icons.shopping_cart_outlined),
-              ),
+              child: Consumer(builder: (context, ref, child) {
+                final user = ref.watch(userProvider);
+                return Badge(
+                  label: Text(user.cart.length.toString()),
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black,
+                  child: const Icon(Icons.shopping_cart_outlined),
+                );
+              }),
             ),
             label: 'Cart',
           )

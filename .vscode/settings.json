@@ -30,5 +30,6 @@
     "**/.vscode": true,
     "**/build": true
   },
-  "explorerExclude.backup": {}
+  "explorerExclude.backup": {},
+  "editor.acceptSuggestionOnEnter": "on"
 }

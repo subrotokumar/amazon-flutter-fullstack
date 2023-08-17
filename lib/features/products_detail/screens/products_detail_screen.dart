@@ -24,6 +24,7 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
+  final ProductDetailService productDetailService = ProductDetailService();
   double avgRating = 0;
   double myrating = 0;
   @override
@@ -34,14 +35,14 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       for (int i = 0; i < widget.product.ratings!.length; i++) {
         totalRating += widget.product.ratings![i].rating;
         if (widget.product.ratings![i].userId == ref.read(userProvider).id) {
-          myrating = widget.product.ratings![i].rating;
+          setState(() => myrating = widget.product.ratings![i].rating);
         }
       }
       if (totalRating != 0) {
-        avgRating = totalRating / widget.product.ratings!.length;
+        setState(
+            () => avgRating = totalRating / widget.product.ratings!.length);
       }
     }
-    setState(() {});
   }
 
   void navToSearchScreen(String searchQuery) {
@@ -49,6 +50,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       SearchScreen.name,
       pathParameters: {'searchQuery': searchQuery},
     );
+  }
+
+  void addToCart() {
+    productDetailService.addToCart(
+        context: context, ref: ref, product: widget.product);
   }
 
   @override
@@ -205,7 +211,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CustomButton(
                 label: 'Add To Cart',
-                onTap: () {},
+                onTap: addToCart,
                 color: const Color.fromRGBO(254, 216, 19, 1),
               ),
             ),
