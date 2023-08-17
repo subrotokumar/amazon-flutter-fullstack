@@ -16,6 +16,11 @@ This project is a complete e-commerce application that replicates the functional
 - Viewing Order Details & Status
 - Sign Out
 - Admin Panel
+
+## Screenshots
+<p>
+<img src="./assets/meta/dashboard.png" width="180">&nbsp&nbsp&nbsp<img src="./assets/meta/cart.png" width="180">&nbsp&nbsp&nbsp<img src="./assets/meta/search.png" width="180">
+</p>
 ## Running Locally
 
 After cloning this repository, migrate to project folder. 
